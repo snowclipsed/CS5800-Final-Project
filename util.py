@@ -51,5 +51,17 @@ class Graph:
         D = Node("D", LocationType.VIBRANT)
         E = Node("E", LocationType.DULL)
 
-        current.add
+        self.current_node.add_neighbors([B, C, D, E])
+    
+    def fetch_current_node(self):
+        return self.current_node
 
+
+def main():
+    graph = Graph()
+    print(graph.fetch_current_node().fetch_location_name())
+    print(graph.fetch_current_node().fetch_location_type())
+    print(graph.fetch_current_node().fetch_neighbors())
+
+if __name__ == "__main__":
+    main()

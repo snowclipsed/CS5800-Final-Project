@@ -1,4 +1,17 @@
 """
+    This is just a sample function for us to visualise the helper classes created.
+"""
+def main():
+    graph = Graph()
+    print("Name: " + str(graph.fetch_current_node().fetch_location_name()))
+    print("Type: " + str(graph.fetch_current_node().fetch_location_type()))
+    print("Neighbors: ")
+    for node in graph.fetch_current_node().fetch_neighbors():
+        print(node.to_string())
+    print("Edge Mapping:")
+    print(graph.fetch_edge_mapping().to_string())
+
+"""
     Creating a custom node definition in order to store the following data.
         1) Name of the Location.
         2) Type of Location.
@@ -92,17 +105,6 @@ class Edge:
     
     def to_string(self):
         return str(self.edges)
-
-
-def main():
-    graph = Graph()
-    print("Name: " + str(graph.fetch_current_node().fetch_location_name()))
-    print("Type: " + str(graph.fetch_current_node().fetch_location_type()))
-    print("Neighbors: ")
-    for node in graph.fetch_current_node().fetch_neighbors():
-        print(node.to_string())
-    print("Edge Mapping:")
-    print(graph.fetch_edge_mapping().to_string())
 
 if __name__ == "__main__":
     main()

@@ -1,95 +1,183 @@
 import pandas as pd
 from node import Node
+from collections import defaultdict
 
-"""
-This is the main graph class for creating an adjacency list based graph.
 
-The graph itself is a list of linked lists, with size num equalling the number of total vertices that may exist.
 
-"""
 class ALGraph:
-    def __init__(self, num):
-        self.size = num
-        self.graph = [None] * self.size
-        self.elements = [None] * self.size
-        self.count = 0
-
     """
-    add_edge() : takes a source node, a destination node and edge weight as parameters and creates an edge in the graph between them.
-    - if the nodes already exist in the graph it will directly add an edge.
-    - if the node does not exist in the graph it will add the node to the graph by extending an edge to it.
-    - the addition of an edge is done by adding a list data structure as an element to the linked list corresponding to a particular element.
-        - the list data structure is of the format [destination, weight] which corresponds to which element the source is attached to and 
-          with how much weight in the edge.
+This class represents an adjacency list graph.
+
+Attributes:
+    nodes (dict): A dictionary containing the nodes of the graph.
+
+Methods:
+    add_node: Adds a single node to the graph.
+    add_nodelist: Adds a list of nodes to the graph.
+    display_dict: Displays the raw dictionary of nodes.
+    display_nodes: Displays the nodes in the graph.
+    add_edge: Adds an edge between two nodes with a specified weight.
+    display_graph: Displays the graph with node details and neighbors.
+    to_dataframe: Converts the graph to a pandas DataFrame.
     """
-    def add_edge(self, source, destination, weight):
+    def __init__(self):
+        self.nodes = {}
+    
+    def add_node(self, source):
+        """
+        Adds a single node to the graph.
         
+        Args:
+            source (Node): The node to be added to the graph.
         
-        if(weight>=0):
-            s = source.vertex
-            d = destination.vertex
+        Returns:
+            None
+        """
+        if source not in self.nodes:
+            self.nodes[source.id] = source
 
-            destination.next = self.graph[s]
-            self.graph[s] = [destination, weight]
 
-            source.next = self.graph[d]
-            self.graph[d] = [source, weight]
 
-        else:
-            print("Weight cannot be negative for edge between" + str(source) + " and " + str(destination))
+    def add_nodelist(self, sourcelist:list):
+        """
+        Adds a single node to the graph.
+        
+        Args:
+            source (Node): The node to be added to the graph.
+        
+        Returns:
+            None
+        
+        Raises:
+            KeyError: If the node already exists in the graph.
+        
+        Examples:
+            To add a node with ID 1 and name "Example", use:
+            |   add_node(Node(1, "Example", False))
+        """
+        print("\n")
+        for source in sourcelist:
+            if source not in self.nodes:
+                self.nodes[source.id] = source
+                print("Added Node with ID ", source.id, "to the graph.")
+            else:
+                print("Node with ID : ", source.id, " Place: ", source.name, "already exists in the graph.")
+        print("\n")
+                
+    def display_dict(self):
+        """
+        Displays the raw dictionary content as key value pairs. 
+        Use for debugging purposes. 
+        """
+        print("Raw dictionary is : \n")
+        print(self.nodes)
+
+    def display_nodes(self):
+        """
+        Display nodes in the graph.
+
+        This method iterates through the nodes in the graph and prints their IDs and names. 
+        It is used for displaying the nodes in the graph for debugging and visualization purposes.
+
+        Args:
+            self (ALGraph): The graph object.
+
+        Returns:
+            None
+
+        Examples:
+            To display the nodes in the graph, use:
+            |   graph.display_nodes()
+
+        """
+        print("Displaying nodes.... \n")
+        for i in self.nodes:
+            print("ID: ", i, "| Name:", self.nodes[i].name)
+        print("\n")
         
 
-        if source in self.elements:
-            print(str(s) + " is already in the array so it is not added to the element list.")
-        else:
-            self.elements[self.count] = source
-            self.count += 1
+    def add_edge(self, source_id, destination_id, weight):
+        """
+    Adds an edge between two nodes in the graph with a specified weight.
+    
+    This method adds an edge between two nodes in the graph, with the specified weight. 
+    It updates the neighbors dictionary of both nodes to include the other node and the weight of the edge.
+    
+    Args:
+        source_id (int): The ID of the source node.
+        destination_id (int): The ID of the destination node.
+        weight (int): The weight of the edge between the source and destination nodes.
+    
+    Returns:
+        None
+    
+    Examples:
+        To add an edge between nodes with IDs 1 and 2 with weight 100, use:
+        |   graph.add_edge(1, 2, 100)
+        """
+        self.nodes[source_id].neighbors[destination_id] = weight
+        self.nodes[destination_id].neighbors[source_id] = weight
+        print("Added edge between", source_id, " and ", destination_id, "with weight ", weight)
+    
 
-        if destination in self.elements:
-            print(str(d) + " is already in the array so it is not added to the element list.")
-        else:
-            self.elements[self.count] = destination
-            self.count += 1
-        
+    def display_graph(self):
+        """
+        Display detailed information about the graph.
+
+        This method iterates through the nodes in the graph and prints detailed information about each node, including its ID, name, neighbors, and place type. 
+        It is used for displaying comprehensive details about the graph for analysis and debugging purposes.
+
+        Args:
+            self (ALGraph): The graph object.
+
+        Returns:
+            None
+
+        Examples:
+            To display detailed information about the graph, use:
+            |   graph.display_graph_details()
+
+        """
+        print("Displaying graph.... \n")
+        for node, properties in self.nodes.items():
+            neighbors = properties.neighbors
+            name = properties.name
+            placetype = properties.placetype
+
+            print("Node ID : ", node , "| Name : ",  name , "| Neighbors : " , neighbors , "| Place Type : ",  placetype)
+        print("\n")
 
 
-    """
-    print_graph() : prints the graph. iterates through the graph list and for each element, iterates through the linked list to display all the neighbors of the node and 
-                    the weight of the edges that attach to those neighbors.
-        - can add more attributes if necessary
-    """
-    def print_graph(self):
-        for i in range(self.size):
-            print("Vertex " + str(i) + ":", end="")
-            tempnode = self.graph[i]
-            temp = tempnode[0]
-            print(" -> [{}".format(temp.vertex), ", Weight : ", tempnode[1], "]", end="")
-            while(temp.next != None):
-                tempnode = temp.next
-                temp = tempnode[0]
-                print(" -> [{}".format(temp.vertex), ", Weight : ", tempnode[1], "]", end="")
-            print("\n")
 
     def to_dataframe(self):
+        """
+        Converts the graph to a pandas DataFrame.
+        
+        This method iterates through the nodes in the graph and creates a pandas DataFrame with detailed information about each node, including its ID, name, neighbors, and place type. 
+        It initializes an empty dictionary to store the data and then creates a DataFrame using the pandas library. It iterates through each node, extracting its properties, and appends the data to the DataFrame. Finally, it sets the display options to show all rows and columns and prints the DataFrame.
+        
+        Args:
+            self (ALGraph): The graph object.
+        
+        Returns:
+            dataframe (pd.DataFrame): A pandas DataFrame containing detailed information about each node in the graph.
+        
+        Examples:
+            To convert the graph to a pandas DataFrame, use:
+            |   graph.to_dataframe()
+        """
         data = {}
-        dataframe = pd.DataFrame(data, columns = Node.attribs)
+        dataframe = pd.DataFrame(data, columns=Node.attribs)
 
-        for i in range(self.size):
-            neighbors = []
-
-            tempnode = self.graph[i]
-            temp = tempnode[0]
-            neighbors.append(temp.vertex)
-            while(temp.next!=None):
-                tempnode = temp.next
-                temp = tempnode[0]
-                neighbors.append(temp.vertex)
-
-            data = {"Vertex" : i, 
-                    "Neighbors and Weights": neighbors,
-                "Place Name": self.elements[i].name,
-                "Type of Place" : self.elements[i].placetype}
+        for node, properties in self.nodes.items():
+            neighbors = properties.neighbors
+            name = properties.name
+            placetype = properties.placetype
+            data = {"ID" : node, "Neighbors and Weights": neighbors, "Place Name": name, "Type of Place": placetype}
             dataframe = pd.concat([dataframe, pd.DataFrame([data])], ignore_index=True)
-            pd.set_option('display.max_rows', None)
-            pd.set_option('display.max_columns', None)
+        pd.set_option('display.max_rows', None)
+        pd.set_option('display.max_columns', None)
+        print("Converting to dataframe....")
         print(dataframe)
+        print("\n")
+        return dataframe

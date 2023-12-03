@@ -1,16 +1,17 @@
+from collections import defaultdict
 class Node:
 
     attribs = [
-            "Vertex",
+            "ID",
             "Neighbors and Weights",
             "Place Name",
             "Type of Place",
         ]
     
     def __init__(self, id, name, type):
-        self.vertex = id
+        self.id= id
+        self.neighbors = {}
         self.name = name
         self.placetype = type
-        self.next = None
 
-        print("Added Node " + str(self.vertex) + " of type " + str(self.placetype))
+        print("Created Node " + str(self.id) + " of type " + str(self.placetype))

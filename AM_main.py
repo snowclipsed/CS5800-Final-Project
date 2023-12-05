@@ -1,4 +1,4 @@
-from graph import ALGraph
+from graph import AMGraph
 from node import Node
 
 if __name__ == "__main__":
@@ -28,7 +28,7 @@ if __name__ == "__main__":
     Node(3, "Roux Institute",  False)
     ]
 
-    graph = ALGraph()
+    graph = AMGraph(4)
     graph.add_node(places[0])
     graph.add_node(places[1])
     
@@ -42,9 +42,10 @@ if __name__ == "__main__":
     
     print("\n")
 
-    graph.display_nodes()
+    # graph.display_nodes()
     graph.display_graph()
-    graph.to_dataframe()
+    graph.vis_graph()
+    # graph.to_dataframe()
     # graph.display_dict()
 
 

@@ -1,7 +1,7 @@
 import pandas as pd
 from node import Node
 from collections import defaultdict
-
+from pyvis.network import Network
 
 
 class ALGraph:
@@ -181,3 +181,113 @@ Methods:
         print(dataframe)
         print("\n")
         return dataframe
+    
+    def vis_graph(self):
+        net = Network()
+
+        for i in self.nodes:
+            ID = i
+            label = self.nodes[i].name
+            net.add_node(ID, label = label)
+
+
+        for i in self.nodes:
+            for j in self.nodes[i].neighbors:
+                net.add_edge(i, j, weight = self.nodes[i].neighbors[j], title = self.nodes[i].neighbors[j], label = str(self.nodes[i].neighbors[j]))
+
+
+        net.show("graph_AL.html", notebook = False)
+
+
+
+
+
+
+
+
+    
+        
+class AMGraph:
+    """
+        This class represents an adjacency matrix graph.
+        
+        It contains methods for initializing the graph, adding nodes, adding a list of nodes, and adding edges between nodes.
+    """
+    def __init__(self, size):
+        self.nodes = {}
+        self.adj_matrix = []
+        for i in range(size):
+            self.adj_matrix.append([0 for i in range(size)])
+        self.size = size
+
+    def add_node(self, source):
+        """
+        Adds a single node to the graph.
+        
+        Args:
+            source (Node): The node to be added to the graph.
+        
+        Returns:
+            None
+        """
+        if source not in self.nodes:
+            self.nodes[source.id] = source
+
+
+    def add_nodelist(self, sourcelist:list):
+        """
+        Adds a single node to the graph.
+        
+        Args:
+            source (Node): The node to be added to the graph.
+        
+        Returns:
+            None
+        
+        Raises:
+            KeyError: If the node already exists in the graph.
+        
+        Examples:
+            To add a node with ID 1 and name "Example", use:
+            |   add_node(Node(1, "Example", False))
+        """
+        print("\n")
+        for source in sourcelist:
+            if source not in self.nodes:
+                self.nodes[source.id] = source
+                print("Added Node with ID ", source.id, "to the graph.")
+            else:
+                print("Node with ID : ", source.id, " Place: ", source.name, "already exists in the graph.")
+        print("\n")
+
+
+    def add_edge(self, source, destination, weight=None):
+        if source != destination:
+
+            self.adj_matrix[source][destination] = weight
+            self.adj_matrix[destination][source] = weight
+
+            print("Added edge between", source, " and ", destination, "with weight ", weight)
+        else:
+            print("Cannot extend an edge to self. Provide distinct source and destination.")
+
+    def display_graph(self):
+        print("Adjacency Matrix:")
+        for row in self.adj_matrix:
+            print(row)
+
+    def vis_graph(self):
+        
+        net = Network()
+
+        for i in self.nodes:
+            ID = i
+            label = self.nodes[i].name
+            net.add_node(ID, label = label)
+
+        for i, row in enumerate(self.adj_matrix):
+            for j, element in enumerate(row):
+                if element > 0:
+                    net.add_edge(i, j, weight = element, label = str(element))
+
+        net.show("graph_AM.html", notebook = False)

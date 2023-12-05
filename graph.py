@@ -183,6 +183,18 @@ Methods:
         return dataframe
     
     def vis_graph(self):
+        """
+        This method uses the pyvis library to display an interactive graph of nodes in an HTML file. 
+        It first initializes a Network object from the pyvis library. Then, it iterates through the nodes 
+        in the graph and adds them to the network object using their IDs and labels. After that, it iterates 
+        through the adjacency list to identify edges and their weights, and adds them to the network object. 
+        Finally, it calls the show method of the network object to generate an HTML file with an interactive 
+        visualization of the graph. This method provides a visual representation of the graph's nodes and 
+        edges, allowing for interactive exploration and analysis of the graph structure.
+
+        Returns:
+            None
+        """
         net = Network()
 
         for i in self.nodes:
@@ -261,7 +273,14 @@ class AMGraph:
         print("\n")
 
 
+
     def add_edge(self, source, destination, weight=None):
+        """
+        Displays all the nodes in the graph.
+        
+        Returns:
+            None
+        """
         if source != destination:
 
             self.adj_matrix[source][destination] = weight
@@ -276,7 +295,22 @@ class AMGraph:
         for row in self.adj_matrix:
             print(row)
 
+
+
+
     def vis_graph(self):
+        """
+        This method uses the pyvis library to display an interactive graph of nodes in an HTML file. 
+        It first initializes a Network object from the pyvis library. Then, it iterates through the nodes 
+        in the graph and adds them to the network object using their IDs and labels. After that, it iterates 
+        through the adjacency matrix to identify edges and their weights, and adds them to the network object. 
+        Finally, it calls the show method of the network object to generate an HTML file with an interactive 
+        visualization of the graph. This method provides a visual representation of the graph's nodes and 
+        edges, allowing for interactive exploration and analysis of the graph structure.
+
+        Returns:
+            None
+        """
         
         net = Network()
 

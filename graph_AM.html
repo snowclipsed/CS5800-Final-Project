@@ -88,8 +88,8 @@
                   
 
                   // parsing and collecting nodes and edges from the python
-                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": 0, "label": "Port", "shape": "dot"}, {"color": "#97c2fc", "id": 1, "label": "Head Light", "shape": "dot"}, {"color": "#97c2fc", "id": 2, "label": "Casco Bay Islands", "shape": "dot"}, {"color": "#97c2fc", "id": 3, "label": "Roux Institute", "shape": "dot"}]);
-                  edges = new vis.DataSet([{"from": 0, "label": "100", "to": 1, "weight": 100}, {"from": 0, "label": "200", "to": 2, "weight": 200}, {"from": 0, "label": "600", "to": 3, "weight": 600}, {"from": 1, "label": "400", "to": 3, "weight": 400}, {"from": 2, "label": "500", "to": 3, "weight": 500}]);
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": 0, "label": "Port", "shape": "dot"}, {"color": "#97c2fc", "id": 1, "label": "Head Light", "shape": "dot"}, {"color": "#97c2fc", "id": 2, "label": "Casco Bay Islands", "shape": "dot"}, {"color": "#97c2fc", "id": 3, "label": "Roux Institute", "shape": "dot"}, {"color": "#97c2fc", "id": 4, "label": "Old Port District", "shape": "dot"}, {"color": "#97c2fc", "id": 5, "label": "Portland Museum of Art", "shape": "dot"}, {"color": "#97c2fc", "id": 6, "label": "Eastern Promenade", "shape": "dot"}, {"color": "#97c2fc", "id": 7, "label": "Fore Street", "shape": "dot"}, {"color": "#97c2fc", "id": 8, "label": "Portland Observatory", "shape": "dot"}, {"color": "#97c2fc", "id": 9, "label": "Allagash Brewing Company", "shape": "dot"}]);
+                  edges = new vis.DataSet([{"from": 0, "label": "12", "to": 1, "weight": 12}, {"from": 0, "label": "28", "to": 2, "weight": 28}, {"from": 0, "label": "33", "to": 3, "weight": 33}, {"from": 0, "label": "85", "to": 4, "weight": 85}, {"from": 0, "label": "73", "to": 5, "weight": 73}, {"from": 0, "label": "62", "to": 6, "weight": 62}, {"from": 0, "label": "42", "to": 7, "weight": 42}, {"from": 0, "label": "80", "to": 8, "weight": 80}, {"from": 0, "label": "90", "to": 9, "weight": 90}, {"from": 1, "label": "93", "to": 2, "weight": 93}, {"from": 1, "label": "97", "to": 3, "weight": 97}, {"from": 1, "label": "54", "to": 4, "weight": 54}, {"from": 1, "label": "49", "to": 5, "weight": 49}, {"from": 1, "label": "31", "to": 6, "weight": 31}, {"from": 1, "label": "41", "to": 8, "weight": 41}, {"from": 2, "label": "20", "to": 3, "weight": 20}, {"from": 2, "label": "38", "to": 4, "weight": 38}, {"from": 2, "label": "65", "to": 5, "weight": 65}, {"from": 2, "label": "29", "to": 7, "weight": 29}, {"from": 2, "label": "14", "to": 8, "weight": 14}, {"from": 2, "label": "83", "to": 9, "weight": 83}, {"from": 3, "label": "99", "to": 4, "weight": 99}, {"from": 3, "label": "90", "to": 7, "weight": 90}, {"from": 3, "label": "68", "to": 8, "weight": 68}, {"from": 3, "label": "75", "to": 9, "weight": 75}, {"from": 4, "label": "64", "to": 5, "weight": 64}, {"from": 4, "label": "59", "to": 8, "weight": 59}, {"from": 4, "label": "13", "to": 9, "weight": 13}, {"from": 5, "label": "76", "to": 6, "weight": 76}, {"from": 5, "label": "55", "to": 7, "weight": 55}, {"from": 6, "label": "40", "to": 7, "weight": 40}, {"from": 6, "label": "22", "to": 8, "weight": 22}, {"from": 6, "label": "27", "to": 9, "weight": 27}, {"from": 7, "label": "98", "to": 8, "weight": 98}, {"from": 7, "label": "11", "to": 9, "weight": 11}]);
 
                   nodeColors = {};
                   allNodes = nodes.get({ returnType: "Object" });
@@ -100,35 +100,7 @@
                   // adding nodes and edges to the graph
                   data = {nodes: nodes, edges: edges};
 
-                  var options = {
-    "configure": {
-        "enabled": false
-    },
-    "edges": {
-        "color": {
-            "inherit": true
-        },
-        "smooth": {
-            "enabled": true,
-            "type": "dynamic"
-        }
-    },
-    "interaction": {
-        "dragNodes": true,
-        "hideEdgesOnDrag": false,
-        "hideNodesOnDrag": false
-    },
-    "physics": {
-        "enabled": true,
-        "stabilization": {
-            "enabled": true,
-            "fit": true,
-            "iterations": 1000,
-            "onlyDynamicEdges": false,
-            "updateInterval": 50
-        }
-    }
-};
+                  var options = {"nodes": {"shape": "circle", "size": 30}, "edges": {"color": {"inherit": true}, "smooth": {"type": "continuous"}}, "physics": {"barnesHut": {"gravitationalConstant": -3000, "springConstant": 0.001, "springLength": 500}, "minVelocity": 0.75}};
 
                   
 

@@ -207,11 +207,32 @@ Methods:
             for j in self.nodes[i].neighbors:
                 net.add_edge(i, j, weight = self.nodes[i].neighbors[j], title = self.nodes[i].neighbors[j], label = str(self.nodes[i].neighbors[j]))
 
+        net.set_options("""
+        var options = {
+          "nodes": {
+            "shape": "circle",
+            "size": 30
+          },
+          "edges": {
+            "color": {
+              "inherit": true
+            },
+            "smooth": {
+              "type": "continuous"
+            }
+          },
+          "physics": {
+            "barnesHut": {
+              "gravitationalConstant": -3000,
+              "springConstant": 0.04,
+              "springLength": 400
+            },
+            "minVelocity": 0.75
+          }
+        }
+        """)
 
         net.show("graph_AL.html", notebook = False)
-
-
-
 
 
 
@@ -323,5 +344,29 @@ class AMGraph:
             for j, element in enumerate(row):
                 if element > 0:
                     net.add_edge(i, j, weight = element, label = str(element))
+        net.set_options("""
+        var options = {
+          "nodes": {
+            "shape": "circle",
+            "size": 30
+          },
+          "edges": {
+            "color": {
+              "inherit": true
+            },
+            "smooth": {
+              "type": "continuous"
+            }
+          },
+          "physics": {
+            "barnesHut": {
+              "gravitationalConstant": -3000,
+              "springConstant": 0.001,
+              "springLength": 500
+            },
+            "minVelocity": 0.75
+          }
+        }
+        """)
 
         net.show("graph_AM.html", notebook = False)

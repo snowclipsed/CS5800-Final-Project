@@ -96,7 +96,7 @@ Methods:
         print("\n")
         
 
-    def add_edge(self, source_id, destination_id, weight):
+    def add_edge(self, source_id, destination_id, weight, p_hitch):
         """
     Adds an edge between two nodes in the graph with a specified weight.
     
@@ -115,8 +115,8 @@ Methods:
         To add an edge between nodes with IDs 1 and 2 with weight 100, use:
         |   graph.add_edge(1, 2, 100)
         """
-        self.nodes[source_id].neighbors[destination_id] = weight
-        self.nodes[destination_id].neighbors[source_id] = weight
+        self.nodes[source_id].neighbors[destination_id] = [weight,p_hitch]
+        self.nodes[destination_id].neighbors[source_id] = [weight,p_hitch]
         print("Added edge between", source_id, " and ", destination_id, "with weight ", weight)
     
 
@@ -142,9 +142,10 @@ Methods:
         for node, properties in self.nodes.items():
             neighbors = properties.neighbors
             name = properties.name
-            placetype = properties.placetype
+            maxapple= properties.maxapple
+            maxorange = properties.maxorange
 
-            print("Node ID : ", node , "| Name : ",  name , "| Neighbors : " , neighbors , "| Place Type : ",  placetype)
+            print("Node ID : ", node , "| Name : ",  name , "| Neighbors : " , neighbors , "| Max Orange Sale: ", maxorange, "| Max Apple Sale: ", maxapple  )
         print("\n")
 
 

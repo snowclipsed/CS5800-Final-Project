@@ -6,6 +6,8 @@ class Player:
         self.inventory = {"apples":0, "oranges":0} #oranges:orangeweight,apple:appleweight
         self.weight = self.inventory["apples"] + self.inventory["oranges"]
         self.wallet = 0
+        self.totalcapacity = 0
+        self.currentcapacity = self.totalcapacity-self.weight
         
 
     def travel(self,graph:ALGraph, ID):
@@ -17,8 +19,20 @@ class Player:
     def get_weight(self):
         return self.weight
     
+    def get_totalcapacity(self):
+        return self.totalcapacity
+    
+    def set_capacity(self,newcapacity):
+        self.totalcapacity = newcapacity
+
+    def get_currentcapacity(self):
+        return self.currentcapacity
+    
     def get_wallet(self):
         return self.wallet
+    
+    def set_wallet(self,money):
+        self.wallet = money
     
     def get_inventory(self):
         return self.inventory["apples"],self.inventory["oranges"]
@@ -32,6 +46,11 @@ class Player:
         self.inventory["apples"] += changeapple
         self.inventory["orange"] += changeorange
         return self.changeinventory["apples"], self.changeinventory["oranges"]
+    
+    def set_inventory(self,newinventory):
+        self.inventory["apples"] = newinventory[0]
+        self.inventory["orange"] = newinventory[1]
+        return self.changeinventory["apples"], self.changeinventory["oranges"]
 
 
     def change_wallet(self,moneyvalue):
@@ -40,6 +59,7 @@ class Player:
         else:
             print("Player has no money in the wallet. Cannot subtract money.")
         return self.wallet
+    
     
 
             

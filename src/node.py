@@ -59,6 +59,12 @@ class Node:
         self.orangeprice = new_orangeprice
         return self.orangeprice
     
+    def add_applestock(self,added_apples:int):
+        self.applestock += added_apples
+
+    def add_orangestock(self, added_oranges:int):
+        self.orangestock += added_oranges
+    
     def set_applestock(self, new_applestock:int):
         self.applestock = new_applestock
         return self.applestock

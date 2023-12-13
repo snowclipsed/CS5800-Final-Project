@@ -72,6 +72,9 @@ Methods:
         print("Raw dictionary is : \n")
         print(self.nodes)
 
+    def return_graph(self):
+        return self.nodes
+
     def display_nodes(self):
         """
         Display nodes in the graph.
@@ -117,7 +120,7 @@ Methods:
         """
         self.nodes[source_id].neighbors[destination_id] = [weight,p_hitch]
         self.nodes[destination_id].neighbors[source_id] = [weight,p_hitch]
-        print("Added edge between", source_id, " and ", destination_id, "with weight ", weight)
+        print("Added edge between", source_id, " and ", destination_id, "with weight ", weight, "and with hitchhiking probability of ", p_hitch)
     
 
     def display_graph(self):
@@ -142,10 +145,14 @@ Methods:
         for node, properties in self.nodes.items():
             neighbors = properties.neighbors
             name = properties.name
-            maxapple= properties.maxapple
-            maxorange = properties.maxorange
+            orangestock = properties.orangestock
+            orangeprice = properties.orangeprice
+            applestock = properties.applestock
+            appleprice = properties.appleprice
 
-            print("Node ID : ", node , "| Name : ",  name , "| Neighbors : " , neighbors , "| Max Orange Sale: ", maxorange, "| Max Apple Sale: ", maxapple  )
+
+            print("Node ID : ", node , "| Name : ",  name , "| Neighbors : " , neighbors , "| Orange Stock: ", orangestock, "| Current Market Rate of Oranges", orangeprice , "| Apples Stock: ", applestock, "| Current Market Rate of Apples", appleprice)
+            print("\n")
         print("\n")
 
 
@@ -173,8 +180,11 @@ Methods:
         for node, properties in self.nodes.items():
             neighbors = properties.neighbors
             name = properties.name
-            placetype = properties.placetype
-            data = {"ID" : node, "Neighbors and Weights": neighbors, "Place Name": name, "Type of Place": placetype}
+            orangestock = properties.orangestock
+            orangeprice = properties.orangeprice
+            applestock = properties.applestock
+            appleprice = properties.appleprice
+            data = {"ID" : node, "Neighbors and Weights": neighbors, "Place Name": name, "Orange Market Stock": orangestock, "Orange Market Price": orangeprice, "Apple Market Stock": applestock, "Apple Market Price":appleprice}
             dataframe = pd.concat([dataframe, pd.DataFrame([data])], ignore_index=True)
         pd.set_option('display.max_rows', None)
         pd.set_option('display.max_columns', None)
@@ -206,7 +216,7 @@ Methods:
 
         for i in self.nodes:
             for j in self.nodes[i].neighbors:
-                net.add_edge(i, j, weight = self.nodes[i].neighbors[j], title = self.nodes[i].neighbors[j], label = str(self.nodes[i].neighbors[j]))
+                net.add_edge(i, j, weight = self.nodes[i].neighbors[j][0], title = self.nodes[i].neighbors[j][1], label = str(self.nodes[i].neighbors[j][0]))
 
         net.set_options("""
         var options = {

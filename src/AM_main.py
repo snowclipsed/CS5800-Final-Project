@@ -1,5 +1,5 @@
-from graph import AMGraph
-from node import Node
+from src.graph import AMGraph
+from src.node import Node
 
 if __name__ == "__main__":
     

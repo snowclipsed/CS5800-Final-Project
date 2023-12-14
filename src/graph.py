@@ -72,6 +72,9 @@ Methods:
         print("Raw dictionary is : \n")
         print(self.nodes)
 
+    def return_graph(self):
+        return self.nodes
+
     def display_nodes(self):
         """
         Display nodes in the graph.
@@ -96,7 +99,7 @@ Methods:
         print("\n")
         
 
-    def add_edge(self, source_id, destination_id, weight):
+    def add_edge(self, source_id, destination_id, weight, p_hitch):
         """
     Adds an edge between two nodes in the graph with a specified weight.
     
@@ -115,9 +118,9 @@ Methods:
         To add an edge between nodes with IDs 1 and 2 with weight 100, use:
         |   graph.add_edge(1, 2, 100)
         """
-        self.nodes[source_id].neighbors[destination_id] = weight
-        self.nodes[destination_id].neighbors[source_id] = weight
-        print("Added edge between", source_id, " and ", destination_id, "with weight ", weight)
+        self.nodes[source_id].neighbors[destination_id] = [weight,p_hitch]
+        self.nodes[destination_id].neighbors[source_id] = [weight,p_hitch]
+        print("Added edge between", source_id, " and ", destination_id, "with weight ", weight, "and with hitchhiking probability of ", p_hitch)
     
 
     def display_graph(self):
@@ -142,9 +145,14 @@ Methods:
         for node, properties in self.nodes.items():
             neighbors = properties.neighbors
             name = properties.name
-            placetype = properties.placetype
+            orangestock = properties.orangestock
+            orangeprice = properties.orangeprice
+            applestock = properties.applestock
+            appleprice = properties.appleprice
 
-            print("Node ID : ", node , "| Name : ",  name , "| Neighbors : " , neighbors , "| Place Type : ",  placetype)
+
+            print("Node ID : ", node , "| Name : ",  name , "| Neighbors : " , neighbors , "| Orange Stock: ", orangestock, "| Current Market Rate of Oranges", orangeprice , "| Apples Stock: ", applestock, "| Current Market Rate of Apples", appleprice)
+            print("\n")
         print("\n")
 
 
@@ -172,8 +180,11 @@ Methods:
         for node, properties in self.nodes.items():
             neighbors = properties.neighbors
             name = properties.name
-            placetype = properties.placetype
-            data = {"ID" : node, "Neighbors and Weights": neighbors, "Place Name": name, "Type of Place": placetype}
+            orangestock = properties.orangestock
+            orangeprice = properties.orangeprice
+            applestock = properties.applestock
+            appleprice = properties.appleprice
+            data = {"ID" : node, "Neighbors and Weights": neighbors, "Place Name": name, "Orange Market Stock": orangestock, "Orange Market Price": orangeprice, "Apple Market Stock": applestock, "Apple Market Price":appleprice}
             dataframe = pd.concat([dataframe, pd.DataFrame([data])], ignore_index=True)
         pd.set_option('display.max_rows', None)
         pd.set_option('display.max_columns', None)
@@ -202,10 +213,9 @@ Methods:
             label = self.nodes[i].name
             net.add_node(ID, label = label)
 
-
         for i in self.nodes:
             for j in self.nodes[i].neighbors:
-                net.add_edge(i, j, weight = self.nodes[i].neighbors[j], title = self.nodes[i].neighbors[j], label = str(self.nodes[i].neighbors[j]))
+                net.add_edge(i, j, weight = self.nodes[i].neighbors[j][0], title = self.nodes[i].neighbors[j][1], label = str(self.nodes[i].neighbors[j][0]))
 
         net.set_options("""
         var options = {
@@ -223,8 +233,8 @@ Methods:
           },
           "physics": {
             "barnesHut": {
-              "gravitationalConstant": -3000,
-              "springConstant": 0.04,
+              "gravitationalConstant": -5000,
+              "springConstant": 0.5,
               "springLength": 400
             },
             "minVelocity": 0.75
@@ -232,14 +242,83 @@ Methods:
         }
         """)
 
-        net.show("graph_AL.html", notebook = False)
+        net.show("graph.html", notebook = False)
 
 
+    def vis_result(self, dict:defaultdict):
+        """
+        This method uses the pyvis library to display an interactive graph of nodes in an HTML file. 
+        It first initializes a Network object from the pyvis library. Then, it iterates through the nodes 
+        in the graph and adds them to the network object using their IDs and labels. After that, it iterates 
+        through the adjacency list to identify edges and their weights, and adds them to the network object. 
+        Finally, it calls the show method of the network object to generate an HTML file with an interactive 
+        visualization of the graph. This method provides a visual representation of the graph's nodes and 
+        edges, allowing for interactive exploration and analysis of the graph structure.
 
+        Returns:
+            None
+        """
+        net = Network()
+        nodeorder = list(dict.keys())
 
+        # for i in range(len(nodeorder)):
+        #     ID = nodeorder[i]
+        #     label = dict[nodeorder[i]].name + " " + str(i)
+        #     net.add_node(ID, label = label)
+        # order = 0
 
-    
+        for i in self.nodes:
+            ID = i
+            label = self.nodes[i].name
+            net.add_node(i, label = label, title = str(ID))
+
+        for i in self.nodes:
+            for j in self.nodes[i].neighbors:
+
+                    for k in range(len(nodeorder)-1):
+                        if(i == nodeorder[k] and j == nodeorder[k+1] or j == nodeorder[k] and i == nodeorder[k+1]):
+                            net.add_edge(i, j, weight = self.nodes[i].neighbors[j][0], title = self.nodes[i].neighbors[j][1], label = str(self.nodes[i].neighbors[j][0]), color = '#013220', width = 10)
+                    
+                    net.add_edge(i, j, weight = self.nodes[i].neighbors[j][0], title = self.nodes[i].neighbors[j][1], label = str(self.nodes[i].neighbors[j][0]))
+                    
+
+        colors = ["#850101", "#e81416", "#ffa500", "#faeb36", "#90EE90", "#79c314", "#487de7", "#4b369d", "#70369d", "black"]
+       
         
+        for j in range(len(nodeorder)):
+            net.nodes[nodeorder[j]]['color'] = colors[j]
+            label = dict[nodeorder[j]].name + " " + str(j)
+            net.nodes[nodeorder[j]]['label'] = label
+    
+
+        net.set_options("""
+        var options = {
+          "nodes": {
+            "shape": "circle",
+            "size": 30
+          },
+          "edges": {
+            "color": {
+              "inherit": true
+            },
+            "smooth": {
+              "type": "continuous"
+            }
+          },
+          "physics": {
+            "barnesHut": {
+              "gravitationalConstant": -5000,
+              "springConstant": 0.5,
+              "springLength": 400
+            },
+            "minVelocity": 0.75
+          }
+        }
+        """)
+
+        net.show("result.html", notebook = False)
+  
+
 class AMGraph:
     """
         This class represents an adjacency matrix graph.

@@ -47,7 +47,7 @@ class Player:
         
 
 
-    def hardik(self,probability):
+    def hardik(self,probability): # hardik generates random numbers!
         random_number = rand.random()
 
         car_available = random_number <= probability

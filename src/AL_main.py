@@ -36,9 +36,9 @@ if __name__ == "__main__":
         Node(9, "Saco", 2, 20, 3, 18)
     ]
 
-    graph = ALGraph()
+    graph = ALGraph() 
     
-    graph.add_nodelist(places)
+    graph.add_nodelist(places) #O(V)
     
     graph.add_edge(0, 1, 30, 0.1)
     graph.add_edge(0, 2, 34, 0.05)
@@ -139,41 +139,42 @@ if __name__ == "__main__":
     graph.add_edge(9, 7, 150, 0.19)
     graph.add_edge(9, 8, 6, 0.14)
 
-   
+   #O(1)*(V^2)
     
     # print("\n")
     
     # print("\n")
 
     # graph.display_nodes()
-    # graph.display_graph()
+    #graph.display_graph()
+    #graph.display_dict()
     # graph.to_dataframe()
 
 
-    graph.vis_graph()
-    # graph.display_dict()
+    graph.vis_graph() #O(V^2)
 
-    player = Player(0,40,20)
+    player = Player(0,40,20) #O(1)
     
-    player.setzero(graph)
+    player.setzero(graph) #O(1)
 
-    while(len(player.traversed)<len(places) and player.cancontinue): #runs n times, so while loop is O(n)
+    while(len(player.traversed)<len(places) and player.cancontinue): #runs V times, so while loop is O(V)
         knapsack = Knapsack(player,graph.nodes[player.currentnode]) #O(1)
         knapsack.apply_knapsack() #O(nlogn)
         knapsack.lottery() #O(nlogn)
         knapsack.update_values(player,graph.nodes[player.currentnode]) #O(1)
         if(player.wallet>0):
-            player.travel(graph)  #O(n)
+            player.travel(graph)  #O(V)
         else:
             print("\n You have no funds")
             break
 
-            #O(n) * (O(1) + O(1) + O(nlogn) + O(nlogn) +O(n)) = O(n^2 logn)
+            # O(1)(Graph) + O(V) (addnodelist()) + O(1)(add_edge)* V^2  + O(V^2) (vis_graph()) + O(1) (Player) + O(1) (setzero()) + O(V) (while loop ) * (O(1) (knapsack class) + O(1)(update_values()) + O(nlogn)(apply_knapsack()) + O(nlogn)(lottery()) +O(V)(travel())) = O(V*nlogn)
     if(len(player.traversed) == len(places)):
         print("\nSuccessfully Traversed the Entire Graph!! Traversal Order is: ", list(player.traversed.keys()))
     else:
         print("\nRan out of money. Traversal Order is: ", list(player.traversed.keys()))
     player.display_inventory()
+
     graph.vis_result(player.traversed)
 
 

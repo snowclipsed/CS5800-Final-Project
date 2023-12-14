@@ -153,7 +153,7 @@ if __name__ == "__main__":
     graph.vis_graph()
     # graph.display_dict()
 
-    player = Player(0,30,20)
+    player = Player(0,40,20)
     
     player.setzero(graph)
 

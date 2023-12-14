@@ -1,6 +1,7 @@
 from graph import ALGraph
 from node import Node
 from player import Player
+from knapsack import Knapsack
 
 if __name__ == "__main__":
     
@@ -149,12 +150,28 @@ if __name__ == "__main__":
     # graph.to_dataframe()
 
 
-    #graph.vis_graph()
+    graph.vis_graph()
     # graph.display_dict()
 
-    player = Player()
-    player.travel(graph, 0)
-    player.displayinventory()
+    player = Player(0,30,20)
+    
+    player.setzero(graph)
+    while(len(player.traversed)<10 and player.cancontinue):
+        knapsack = Knapsack(player,graph.nodes[player.currentnode])
+        knapsack.apply_knapsack()
+        knapsack.lottery()
+        knapsack.update_values(player,graph.nodes[player.currentnode])
+        if(player.wallet>0):
+            player.travel(graph)
+        else:
+            print("\n You have no funds")
+            break
+    if(len(player.traversed) == 10):
+        print("\nSuccessfully Traversed the Entire Graph!! Traversal Order is: ", list(player.traversed.keys()))
+    else:
+        print("\nRan out of money. Traversal Order is: ", list(player.traversed.keys()))
+    player.display_inventory()
+    graph.vis_result(player.traversed)
 
 
 

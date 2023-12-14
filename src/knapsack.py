@@ -5,19 +5,9 @@ from graph import ALGraph
 from player import Player
 
 
-class knapsack:
-        def __init__(self):
+class Knapsack:
+        def __init__(self, player:Player, node:Node):
             x=round(random.random(),2)
-            self.Max_capacity=0
-            self.current_weight=0
-            self.sell_capacity=self.current_weight*x
-            self.sell_price=[0,0]         # [apple,orange]
-            self.distribution=[0,0]
-            self.distribution_market = [0,0] # no of oranges and apples in the market
-            self.money_hold=0
-            print('sell capacity: ', self.sell_capacity)
-
-        def set_values(self,player:Player, node:Node):
             self.Max_capacity = player.get_totalcapacity()
             self.current_weight = player.get_weight()
             self.sell_price = [node.get_appleprice(),node.get_orangeprice()]
@@ -25,6 +15,10 @@ class knapsack:
             self.distribution = [apples,oranges]
             self.distribution_market = [node.get_applestock(), node.get_orangestock()]
             self.money_hold = player.get_wallet()
+
+            self.sell_capacity=self.current_weight*x
+            print('Sell capacity for the node is: ', self.sell_capacity)
+            
 
 
         def fractional_knapsack(self,weights, cost_per_unit, capacity):
@@ -52,7 +46,7 @@ class knapsack:
 
         def apply_knapsack(self):
             profit,amount_sold_each,arg_order= self.fractional_knapsack(self.distribution,self.sell_price,self.sell_capacity)
-            print(profit,amount_sold_each,arg_order)
+            print("The Profit Obtained After Selling :", profit)
             self.money_hold= self.money_hold + profit
             self.current_weight-=sum(amount_sold_each)
             count=0

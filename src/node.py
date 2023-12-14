@@ -19,6 +19,7 @@ class Node:
         self.orangeprice = orangeprice
         self.applestock = applestock
         self.appleprice = appleprice
+        self.visited = False
 
         print("Created Node with ID: " + str(self.id) + " named " + self.name + " with an orange stock and price of " + str(self.orangestock) + "," + str(self.orangeprice) + " with an apple stock and price of " + str(self.applestock) + "," + str(self.appleprice))
 

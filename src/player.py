@@ -20,7 +20,7 @@ class Player:
 
     def travel(self,graph:ALGraph):
 
-        print("\nCurrent Node is :", self.currentnode)
+        # print("\nCurrent Node is :", self.currentnode)
         thisnode = self.currentnode
         cost_to_node = 0
         for key in graph.nodes[self.currentnode].neighbors.keys():
@@ -30,7 +30,7 @@ class Player:
                 travel_cost = graph.nodes[self.currentnode].neighbors[key][0]
             else:
                 travel_cost = 0
-                print("Can take car to node ", key)
+                print("Can take car to node ", key, " " + graph.nodes[key].name)
             potential_profit = graph.nodes[key].appleprice*self.inventory["apples"] + graph.nodes[key].orangeprice*self.inventory["oranges"]
             total_change = potential_profit - travel_cost
             if(total_change>cost_to_node and self.wallet-travel_cost>=0):
@@ -40,7 +40,7 @@ class Player:
             self.wallet -= cost_to_node
             self.traversed[self.currentnode] = graph.nodes[self.currentnode]
             graph.nodes[self.currentnode].visited = True
-            print("Traveled to ", self.currentnode, "\nCurrent Wallet: ", self.get_wallet(), "\n")
+            print("Traveled to node ",self.currentnode, " ",  graph.nodes[self.currentnode].name, "\nCurrent Wallet: ", self.get_wallet(), "\n")
         else:
             print("Not enough money in wallet to continue. Current Wallet : ", self.wallet)
             self.cancontinue = False

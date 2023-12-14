@@ -8,6 +8,7 @@ from player import Player
 class Knapsack:
         def __init__(self, player:Player, node:Node):
             x=round(random.random(),2)
+            self.currentnode = node.id
             self.Max_capacity = player.get_totalcapacity()
             self.current_weight = player.get_weight()
             self.sell_price = [node.get_appleprice(),node.get_orangeprice()]
@@ -17,6 +18,7 @@ class Knapsack:
             self.money_hold = player.get_wallet()
 
             self.sell_capacity=self.current_weight*x
+            print("Current Node is : ", self.currentnode)
             print('Sell capacity for the node is: ', self.sell_capacity)
             
 

@@ -156,7 +156,8 @@ if __name__ == "__main__":
     player = Player(0,30,20)
     
     player.setzero(graph)
-    while(len(player.traversed)<10 and player.cancontinue):
+
+    while(len(player.traversed)<len(places) and player.cancontinue):
         knapsack = Knapsack(player,graph.nodes[player.currentnode])
         knapsack.apply_knapsack()
         knapsack.lottery()
@@ -166,7 +167,8 @@ if __name__ == "__main__":
         else:
             print("\n You have no funds")
             break
-    if(len(player.traversed) == 10):
+        
+    if(len(player.traversed) == len(places)):
         print("\nSuccessfully Traversed the Entire Graph!! Traversal Order is: ", list(player.traversed.keys()))
     else:
         print("\nRan out of money. Traversal Order is: ", list(player.traversed.keys()))

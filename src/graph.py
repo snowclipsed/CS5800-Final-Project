@@ -233,8 +233,8 @@ Methods:
           },
           "physics": {
             "barnesHut": {
-              "gravitationalConstant": -3000,
-              "springConstant": 0.04,
+              "gravitationalConstant": -5000,
+              "springConstant": 0.5,
               "springLength": 400
             },
             "minVelocity": 0.75
@@ -299,7 +299,7 @@ Methods:
           },
           "edges": {
             "color": {
-              "inherit": false
+              "inherit": true
             },
             "smooth": {
               "type": "continuous"
@@ -307,8 +307,8 @@ Methods:
           },
           "physics": {
             "barnesHut": {
-              "gravitationalConstant": -3000,
-              "springConstant": 0.04,
+              "gravitationalConstant": -5000,
+              "springConstant": 0.5,
               "springLength": 400
             },
             "minVelocity": 0.75

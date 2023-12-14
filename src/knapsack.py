@@ -6,7 +6,26 @@ from player import Player
 
 
 class Knapsack:
+        
         def __init__(self, player:Player, node:Node):
+            '''
+            This function implements the fractional knapsack algorithm to optimize the selection of items for selling. 
+            
+            Args:
+                weights (list): A list of integers representing the weights of the items available for sale.
+                cost_per_unit (list): A list of floats representing the selling price per unit of each item.
+                capacity (float): The maximum capacity of the knapsack (i.e., the maximum weight that can be sold).
+            
+            Returns:
+                float: The total profit obtained after selling the items.
+                list: A list representing the amount of each item sold.
+                list: A list of indices representing the order in which the items were selected for selling.
+            
+            This function first calculates the ratio of cost per unit to weight for each item and then sorts the items 
+            in descending order of this ratio. It then iterates through the items, selecting the entire item if it 
+            can fit in the knapsack, or a fraction of the item if it cannot. The function returns the total profit 
+            obtained, the amount of each item sold, and the order in which the items were selected.
+            '''
             x=round(random.random(),2)
             self.currentnode = node.id
             self.Max_capacity = player.get_totalcapacity()
@@ -24,6 +43,24 @@ class Knapsack:
 
 
         def fractional_knapsack(self,weights, cost_per_unit, capacity):
+            '''
+            This function implements the fractional knapsack algorithm to optimize the selection of items for selling. 
+            
+            Args:
+                weights (list): A list of integers representing the weights of the items available for sale.
+                cost_per_unit (list): A list of floats representing the selling price per unit of each item.
+                capacity (float): The maximum capacity of the knapsack (i.e., the maximum weight that can be sold).
+            
+            Returns:
+                float: The total profit obtained after selling the items.
+                list: A list representing the amount of each item sold.
+                list: A list of indices representing the order in which the items were selected for selling.
+            
+            This function first calculates the ratio of cost per unit to weight for each item and then sorts the items 
+            in descending order of this ratio. It then iterates through the items, selecting the entire item if it 
+            can fit in the knapsack, or a fraction of the item if it cannot. The function returns the total profit 
+            obtained, the amount of each item sold, and the order in which the items were selected.
+            '''
             n = len(weights)
             ratios = [(cost_per_unit[i], weights[i], cost_per_unit[i]*weights[i]) for i in range(n)]
             temp=[ratios[0][0],ratios[1][0]]
@@ -47,6 +84,14 @@ class Knapsack:
             return total_value, knapsack, arg_ratio
 
         def apply_knapsack(self):
+            '''
+            This function applies the fractional knapsack algorithm to optimize the selection of items for selling. 
+        
+            It calculates the profit, the amount of each item sold, and the order in which the items were selected. 
+            The profit obtained after selling is added to the player's money hold, and the current weight is updated 
+            based on the amount of each item sold. Additionally, the distribution, distribution_market, and sell_price 
+            are updated based on the items sold. 
+            '''
             profit,amount_sold_each,arg_order= self.fractional_knapsack(self.distribution,self.sell_price,self.sell_capacity)
             print("The Profit Obtained After Selling :", profit)
             self.money_hold= self.money_hold + profit
@@ -61,6 +106,9 @@ class Knapsack:
             
         #### Lottery time
         def lottery(self):
+            '''
+            This function simulates a lottery event where the player can buy a random amount of items based on their remaining capacity and a random number. It calculates the profit obtained from buying the items, the amount of each item bought, and the order in which the items were selected. The profit is added to the player's money hold, and the current weight is updated based on the amount of each item bought. Additionally, the distribution and distribution_market are updated based on the items bought. 
+            '''
             y=round(random.random(),2)
             remmaining_capacity= self.Max_capacity- self.current_weight
             buy_capacity=remmaining_capacity*y

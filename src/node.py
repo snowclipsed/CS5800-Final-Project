@@ -11,7 +11,7 @@ class Node:
             "Apple Market Price"
         ]
     
-    def __init__(self, id:int, name:str, applestock:int, appleprice:int, orangestock:int, orangeprice:int,):
+    def __init__(self, id:int, name:str, applestock:int, appleprice:int, orangestock:int, orangeprice:int):
         self.id= id
         self.neighbors = {}
         self.name = name

@@ -157,17 +157,18 @@ if __name__ == "__main__":
     
     player.setzero(graph)
 
-    while(len(player.traversed)<len(places) and player.cancontinue):
-        knapsack = Knapsack(player,graph.nodes[player.currentnode])
-        knapsack.apply_knapsack()
-        knapsack.lottery()
-        knapsack.update_values(player,graph.nodes[player.currentnode])
+    while(len(player.traversed)<len(places) and player.cancontinue): #runs n times, so while loop is O(n)
+        knapsack = Knapsack(player,graph.nodes[player.currentnode]) #O(1)
+        knapsack.apply_knapsack() #O(nlogn)
+        knapsack.lottery() #O(nlogn)
+        knapsack.update_values(player,graph.nodes[player.currentnode]) #O(1)
         if(player.wallet>0):
-            player.travel(graph)
+            player.travel(graph)  #O(n)
         else:
             print("\n You have no funds")
             break
-        
+
+            #O(n) * (O(1) + O(1) + O(nlogn) + O(nlogn) +O(n)) = O(n^2 logn)
     if(len(player.traversed) == len(places)):
         print("\nSuccessfully Traversed the Entire Graph!! Traversal Order is: ", list(player.traversed.keys()))
     else:

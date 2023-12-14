@@ -23,7 +23,7 @@ class Player:
         # print("\nCurrent Node is :", self.currentnode)
         thisnode = self.currentnode
         cost_to_node = 0
-        for key in graph.nodes[self.currentnode].neighbors.keys():
+        for key in graph.nodes[self.currentnode].neighbors.keys(): #O(n)
            if(graph.nodes[key].visited == False):
             
             if(self.hardik(graph.nodes[self.currentnode].neighbors[key][1]) == False):
@@ -32,7 +32,7 @@ class Player:
                 travel_cost = 0
                 print("Can take car to node ", key, " " + graph.nodes[key].name)
             potential_profit = graph.nodes[key].appleprice*self.inventory["apples"] + graph.nodes[key].orangeprice*self.inventory["oranges"]
-            total_change = potential_profit - travel_cost
+            total_change = potential_profit - travel_cost #optimistic approach greedy algorithm
             if(total_change>cost_to_node and self.wallet-travel_cost>=0):
                 cost_to_node = travel_cost
                 self.currentnode = key
